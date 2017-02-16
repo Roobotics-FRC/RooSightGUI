@@ -1,0 +1,302 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E2784FB41E56656E00475A56 /* RooSight-1.0.jar in Resources */ = {isa = PBXBuildFile; fileRef = E2784FB21E56653C00475A56 /* RooSight-1.0.jar */; };
+		E2D4502E1E5526FB00246E55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D4502D1E5526FB00246E55 /* AppDelegate.swift */; };
+		E2D450301E5526FB00246E55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D4502F1E5526FB00246E55 /* ViewController.swift */; };
+		E2D450321E5526FB00246E55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2D450311E5526FB00246E55 /* Assets.xcassets */; };
+		E2D450351E5526FB00246E55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2D450331E5526FB00246E55 /* Main.storyboard */; };
+		E2D4503D1E552B9300246E55 /* RangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D4503C1E552B9300246E55 /* RangeSlider.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E2784FB21E56653C00475A56 /* RooSight-1.0.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = "RooSight-1.0.jar"; sourceTree = "<group>"; };
+		E2D4502A1E5526FB00246E55 /* RooSightGUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RooSightGUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2D4502D1E5526FB00246E55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E2D4502F1E5526FB00246E55 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E2D450311E5526FB00246E55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E2D450341E5526FB00246E55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E2D450361E5526FB00246E55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E2D4503C1E552B9300246E55 /* RangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E2D450271E5526FB00246E55 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E2D450211E5526FB00246E55 = {
+			isa = PBXGroup;
+			children = (
+				E2D4502C1E5526FB00246E55 /* RooSightGUI */,
+				E2D4502B1E5526FB00246E55 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E2D4502B1E5526FB00246E55 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E2D4502A1E5526FB00246E55 /* RooSightGUI.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E2D4502C1E5526FB00246E55 /* RooSightGUI */ = {
+			isa = PBXGroup;
+			children = (
+				E2D4502D1E5526FB00246E55 /* AppDelegate.swift */,
+				E2D4503C1E552B9300246E55 /* RangeSlider.swift */,
+				E2D4502F1E5526FB00246E55 /* ViewController.swift */,
+				E2D450311E5526FB00246E55 /* Assets.xcassets */,
+				E2784FB21E56653C00475A56 /* RooSight-1.0.jar */,
+				E2D450331E5526FB00246E55 /* Main.storyboard */,
+				E2D450361E5526FB00246E55 /* Info.plist */,
+			);
+			path = RooSightGUI;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E2D450291E5526FB00246E55 /* RooSightGUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2D450391E5526FB00246E55 /* Build configuration list for PBXNativeTarget "RooSightGUI" */;
+			buildPhases = (
+				E2D450261E5526FB00246E55 /* Sources */,
+				E2D450271E5526FB00246E55 /* Frameworks */,
+				E2D450281E5526FB00246E55 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RooSightGUI;
+			productName = RooSightGUI;
+			productReference = E2D4502A1E5526FB00246E55 /* RooSightGUI.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E2D450221E5526FB00246E55 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = aaplmath;
+				TargetAttributes = {
+					E2D450291E5526FB00246E55 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = E2D450251E5526FB00246E55 /* Build configuration list for PBXProject "RooSightGUI" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E2D450211E5526FB00246E55;
+			productRefGroup = E2D4502B1E5526FB00246E55 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E2D450291E5526FB00246E55 /* RooSightGUI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E2D450281E5526FB00246E55 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2784FB41E56656E00475A56 /* RooSight-1.0.jar in Resources */,
+				E2D450321E5526FB00246E55 /* Assets.xcassets in Resources */,
+				E2D450351E5526FB00246E55 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E2D450261E5526FB00246E55 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2D450301E5526FB00246E55 /* ViewController.swift in Sources */,
+				E2D4503D1E552B9300246E55 /* RangeSlider.swift in Sources */,
+				E2D4502E1E5526FB00246E55 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E2D450331E5526FB00246E55 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E2D450341E5526FB00246E55 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E2D450371E5526FB00246E55 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E2D450381E5526FB00246E55 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		E2D4503A1E5526FB00246E55 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = RooSightGUI/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaplmath.RooSightGUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		E2D4503B1E5526FB00246E55 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = RooSightGUI/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaplmath.RooSightGUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E2D450251E5526FB00246E55 /* Build configuration list for PBXProject "RooSightGUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2D450371E5526FB00246E55 /* Debug */,
+				E2D450381E5526FB00246E55 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2D450391E5526FB00246E55 /* Build configuration list for PBXNativeTarget "RooSightGUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2D4503A1E5526FB00246E55 /* Debug */,
+				E2D4503B1E5526FB00246E55 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E2D450221E5526FB00246E55 /* Project object */;
+}
