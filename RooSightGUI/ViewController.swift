@@ -25,9 +25,26 @@ extension RangeSlider {
     }
 }
 
+extension Array {
+    func toParams() -> String {
+        var str = ""
+        for i in 0..<self.count {
+            str += String(describing: self[i])
+            if i != self.count - 1 {
+                str += ","
+            }
+        }
+        return str
+    }
+}
+
 class ViewController: NSViewController {
     
     // MARK: - Outlets
+    
+    var hsv: [Int] = [0, 255, 0, 255, 0, 255]
+    var hsl: [Int] = [0, 255, 0, 255, 0, 255]
+    var rgb: [Int] = [0, 255, 0, 255, 0, 255]
     
     @IBOutlet var label1: NSTextField!
     @IBOutlet var label2: NSTextField!
@@ -45,21 +62,30 @@ class ViewController: NSViewController {
     @IBOutlet var maxLabel2: NSTextField!
     @IBOutlet var maxLabel3: NSTextField!
     
+    @IBOutlet var minWidthField: NSTextField!
+    @IBOutlet var minHeightField: NSTextField!
+    @IBOutlet var minAreaField: NSTextField!
+    
     @IBOutlet var imageView: NSImageView!
     var filePath: URL?
     
     var editMode: EditMode = .HSV {
         willSet(mode) {
+            setColorValArrays()
+            var arr: [Int]
             switch mode {
             case .HSV:
+                arr = hsv
                 label1.stringValue = "Hue"
                 label2.stringValue = "Saturation"
                 label3.stringValue = "Value"
             case .HSL:
+                arr = hsl
                 label1.stringValue = "Hue"
                 label2.stringValue = "Saturation"
                 label3.stringValue = "Luminance"
             case .RGB:
+                arr = rgb
                 label1.stringValue = "Red"
                 label2.stringValue = "Green"
                 label3.stringValue = "Blue"
@@ -81,22 +107,19 @@ class ViewController: NSViewController {
         slider3.minValue = 0
         slider3.maxValue = 255
         
-        // MARK: Slider listeners
-        slider1.onControlChanged = {
-            slider in
-            self.minLabel1.stringValue = String(slider.startInt)
-            self.maxLabel1.stringValue = String(slider.endInt)
-        }
-        slider2.onControlChanged = {
-            slider in
-            self.minLabel2.stringValue = String(slider.startInt)
-            self.maxLabel2.stringValue = String(slider.endInt)
-        }
-        slider3.onControlChanged = {
-            slider in
-            self.minLabel3.stringValue = String(slider.startInt)
-            self.maxLabel3.stringValue = String(slider.endInt)
-        }
+        slider1.snapsToIntegers = true
+        slider2.snapsToIntegers = true
+        slider3.snapsToIntegers = true
+        
+        // MARK: Slider listener bindings
+        
+        minLabel1.bind("integerValue", to: slider1, withKeyPath: "start", options: nil)
+        maxLabel1.bind("integerValue", to: slider1, withKeyPath: "end", options: nil)
+        minLabel2.bind("integerValue", to: slider2, withKeyPath: "start", options: nil)
+        maxLabel2.bind("integerValue", to: slider2, withKeyPath: "end", options: nil)
+        minLabel3.bind("integerValue", to: slider3, withKeyPath: "start", options: nil)
+        maxLabel3.bind("integerValue", to: slider3, withKeyPath: "end", options: nil)
+        
     }
     
     // MARK: - Listeners
@@ -138,27 +161,22 @@ class ViewController: NSViewController {
     
     @IBAction func renderClicked(_ sender: NSButton) {
         if let file = filePath {
-            let slider1Min = slider1.startInt
-            let slider1Max = slider1.endInt
-            let slider2Min = slider2.startInt
-            let slider2Max = slider2.endInt
-            let slider3Min = slider3.startInt
-            let slider3Max = slider3.endInt
-            
             let process = Process()
             process.launchPath = "/usr/bin/java"
-            if let protocolIndex = file.absoluteString.range(of: "file://")?.upperBound, let jarPath = Bundle.main.path(forResource: "RooSight-1.0", ofType: "jar") {
+            if let protocolIndex = file.absoluteString.range(of: "file://")?.upperBound, let jarPath = Bundle.main.path(forResource: "RooSightCLT-1.0.0", ofType: "jar") {
                 let trimmedFileString = file.absoluteString.substring(from: protocolIndex)
-                process.arguments = ["-Djava.library.path=/usr/local/Cellar/opencv3/3.2.0/share/OpenCV/java", "-jar", jarPath, "-file", trimmedFileString]
-                switch editMode {
-                case .HSV:
-                    process.arguments!.append("-hsv")
-                case .HSL:
-                    process.arguments!.append("-hsl")
-                case .RGB:
-                    process.arguments!.append("-rgb")
+                process.arguments = ["-jar", jarPath, "-file", trimmedFileString]
+                setColorValArrays()
+                process.arguments!.append(contentsOf: ["-hsv", hsv.toParams(), "-hsl", hsl.toParams(), "-rgb", rgb.toParams()])
+                if minWidthField.stringValue != "" {
+                    process.arguments!.append(contentsOf: ["-width", minWidthField.stringValue])
                 }
-                process.arguments!.append("\(slider1Min),\(slider1Max),\(slider2Min),\(slider2Max),\(slider3Min),\(slider3Max)")
+                if minHeightField.stringValue != "" {
+                    process.arguments!.append(contentsOf: ["-height", minHeightField.stringValue])
+                }
+                if minAreaField.stringValue != "" {
+                    process.arguments!.append(contentsOf: ["-area", minAreaField.stringValue])
+                }
                 process.terminationHandler = {
                     (terminatedProc: Process) in
                     let outPath = trimmedFileString + ".out.jpg"
@@ -193,6 +211,15 @@ class ViewController: NSViewController {
             codeString += "config.setRGB"
         }
         codeString += "(\(slider1.startInt), \(slider1.endInt), \(slider2.startInt), \(slider2.endInt), \(slider3.startInt), \(slider3.endInt));"
+        if minWidthField.stringValue != "" {
+            codeString += "\nconfig.setMinWidth(\(minWidthField.stringValue));"
+        }
+        if minHeightField.stringValue != "" {
+            codeString += "\nconfig.setMinHeight(\(minWidthField.stringValue));"
+        }
+        if minAreaField.stringValue != "" {
+            codeString += "\nconfig.setMinArea(\(minAreaField.stringValue));"
+        }
         NSPasteboard.general().clearContents()
         NSPasteboard.general().setString(codeString, forType: NSPasteboardTypeString)
         let alert = NSAlert()
@@ -224,7 +251,17 @@ class ViewController: NSViewController {
             alert.runModal()
         }
     }
-
-
+    
+    func setColorValArrays() {
+        let arr = [slider1.startInt, slider1.endInt, slider2.startInt, slider2.endInt, slider3.startInt, slider3.endInt]
+        switch editMode {
+        case .HSV:
+            hsv = arr
+        case .HSL:
+            hsl = arr
+        case .RGB:
+            rgb = arr
+        }
+    }
 }
 
