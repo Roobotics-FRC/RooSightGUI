@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E2B6E54F1E57E8A300E8B1B8 /* RooSightCLT-1.0.0.jar in Resources */ = {isa = PBXBuildFile; fileRef = E2B6E54D1E57E89D00E8B1B8 /* RooSightCLT-1.0.0.jar */; };
 		E2B6E5511E57E92000E8B1B8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E2B6E5501E57E92000E8B1B8 /* Credits.rtf */; };
+		E2B6E5571E58A7F200E8B1B8 /* RooSightCLT-1.0.0.jar in Resources */ = {isa = PBXBuildFile; fileRef = E2B6E5551E58A7E400E8B1B8 /* RooSightCLT-1.0.0.jar */; };
 		E2D4502E1E5526FB00246E55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D4502D1E5526FB00246E55 /* AppDelegate.swift */; };
 		E2D450301E5526FB00246E55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D4502F1E5526FB00246E55 /* ViewController.swift */; };
 		E2D450321E5526FB00246E55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2D450311E5526FB00246E55 /* Assets.xcassets */; };
@@ -17,8 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E2B6E54D1E57E89D00E8B1B8 /* RooSightCLT-1.0.0.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = "RooSightCLT-1.0.0.jar"; sourceTree = "<group>"; };
 		E2B6E5501E57E92000E8B1B8 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		E2B6E5551E58A7E400E8B1B8 /* RooSightCLT-1.0.0.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = "RooSightCLT-1.0.0.jar"; sourceTree = "<group>"; };
 		E2D4502A1E5526FB00246E55 /* RooSightGUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RooSightGUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2D4502D1E5526FB00246E55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2D4502F1E5526FB00246E55 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,7 +63,7 @@
 				E2D4502F1E5526FB00246E55 /* ViewController.swift */,
 				E2D450311E5526FB00246E55 /* Assets.xcassets */,
 				E2D450331E5526FB00246E55 /* Main.storyboard */,
-				E2B6E54D1E57E89D00E8B1B8 /* RooSightCLT-1.0.0.jar */,
+				E2B6E5551E58A7E400E8B1B8 /* RooSightCLT-1.0.0.jar */,
 				E2B6E5501E57E92000E8B1B8 /* Credits.rtf */,
 				E2D450361E5526FB00246E55 /* Info.plist */,
 			);
@@ -129,7 +129,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2B6E54F1E57E8A300E8B1B8 /* RooSightCLT-1.0.0.jar in Resources */,
+				E2B6E5571E58A7F200E8B1B8 /* RooSightCLT-1.0.0.jar in Resources */,
 				E2D450321E5526FB00246E55 /* Assets.xcassets in Resources */,
 				E2D450351E5526FB00246E55 /* Main.storyboard in Resources */,
 				E2B6E5511E57E92000E8B1B8 /* Credits.rtf in Resources */,

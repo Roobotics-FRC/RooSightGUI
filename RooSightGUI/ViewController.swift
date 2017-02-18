@@ -38,6 +38,12 @@ extension Array {
     }
 }
 
+extension NSColor {
+    func toParams() -> String {
+        return "\(Int(self.redComponent * 255)),\(Int(self.greenComponent * 255)),\(Int(self.blueComponent * 255))"
+    }
+}
+
 class ViewController: NSViewController {
     
     // MARK: - Outlets
@@ -49,6 +55,8 @@ class ViewController: NSViewController {
     @IBOutlet var label1: NSTextField!
     @IBOutlet var label2: NSTextField!
     @IBOutlet var label3: NSTextField!
+    
+    @IBOutlet var modeSelect: NSSegmentedControl!
     
     @IBOutlet var slider1: RangeSlider!
     @IBOutlet var slider2: RangeSlider!
@@ -63,8 +71,13 @@ class ViewController: NSViewController {
     @IBOutlet var maxLabel3: NSTextField!
     
     @IBOutlet var minWidthField: NSTextField!
+    @IBOutlet var maxWidthField: NSTextField!
     @IBOutlet var minHeightField: NSTextField!
+    @IBOutlet var maxHeightField: NSTextField!
     @IBOutlet var minAreaField: NSTextField!
+    @IBOutlet var maxAreaField: NSTextField!
+    
+    @IBOutlet var colorField: NSColorWell!
     
     @IBOutlet var imageView: NSImageView!
     var filePath: URL?
@@ -72,23 +85,22 @@ class ViewController: NSViewController {
     var editMode: EditMode = .HSV {
         willSet(mode) {
             setColorValArrays()
-            var arr: [Int]
             switch mode {
             case .HSV:
-                arr = hsv
                 label1.stringValue = "Hue"
                 label2.stringValue = "Saturation"
                 label3.stringValue = "Value"
+                resetSliders(to: hsv)
             case .HSL:
-                arr = hsl
                 label1.stringValue = "Hue"
                 label2.stringValue = "Saturation"
                 label3.stringValue = "Luminance"
+                resetSliders(to: hsl)
             case .RGB:
-                arr = rgb
                 label1.stringValue = "Red"
                 label2.stringValue = "Green"
                 label3.stringValue = "Blue"
+                resetSliders(to: rgb)
             }
         }
     }
@@ -96,7 +108,7 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Prevent the ImageView from making the view massive
+        // Prevent the ImageView from making the view (and window) massive
         imageView.setContentCompressionResistancePriority(NSLayoutPriority(1), for: .horizontal)
         
         // MARK: - Slider config
@@ -165,21 +177,32 @@ class ViewController: NSViewController {
             process.launchPath = "/usr/bin/java"
             if let protocolIndex = file.absoluteString.range(of: "file://")?.upperBound, let jarPath = Bundle.main.path(forResource: "RooSightCLT-1.0.0", ofType: "jar") {
                 let trimmedFileString = file.absoluteString.substring(from: protocolIndex)
-                process.arguments = ["-jar", jarPath, "-file", trimmedFileString]
+                process.arguments = ["-jar", jarPath, "-i", trimmedFileString]
                 setColorValArrays()
                 process.arguments!.append(contentsOf: ["-hsv", hsv.toParams(), "-hsl", hsl.toParams(), "-rgb", rgb.toParams()])
                 if minWidthField.stringValue != "" {
-                    process.arguments!.append(contentsOf: ["-width", minWidthField.stringValue])
+                    process.arguments!.append(contentsOf: ["-wmin", minWidthField.stringValue])
+                }
+                if maxWidthField.stringValue != "" {
+                    process.arguments!.append(contentsOf: ["-wmax", maxWidthField.stringValue])
                 }
                 if minHeightField.stringValue != "" {
-                    process.arguments!.append(contentsOf: ["-height", minHeightField.stringValue])
+                    process.arguments!.append(contentsOf: ["-hmin", minHeightField.stringValue])
+                }
+                if maxHeightField.stringValue != "" {
+                    process.arguments!.append(contentsOf: ["-hmax", maxHeightField.stringValue])
                 }
                 if minAreaField.stringValue != "" {
-                    process.arguments!.append(contentsOf: ["-area", minAreaField.stringValue])
+                    process.arguments!.append(contentsOf: ["-amin", minAreaField.stringValue])
                 }
+                if maxAreaField.stringValue != "" {
+                    process.arguments!.append(contentsOf: ["-amax", maxAreaField.stringValue])
+                }
+                process.arguments!.append(contentsOf: ["-c", colorField.color.toParams()])
+                let outPath = "/tmp/roo_output.jpg"
+                process.arguments!.append(contentsOf: (["-o", outPath]))
                 process.terminationHandler = {
                     (terminatedProc: Process) in
-                    let outPath = trimmedFileString + ".out.jpg"
                     DispatchQueue.main.async {
                         self.imageView.image = NSImage(contentsOfFile: outPath)
                         do {
@@ -200,41 +223,34 @@ class ViewController: NSViewController {
         }
     }
     
-    @IBAction func generateCodeClicked(_ sender: NSButton) {
-        var codeString = "RooConfig config = new RooConfig();\n"
-        switch editMode {
-        case .HSV:
-            codeString += "config.setHSV"
-        case .HSL:
-            codeString += "config.setHSL"
-        case .RGB:
-            codeString += "config.setRGB"
-        }
-        codeString += "(\(slider1.startInt), \(slider1.endInt), \(slider2.startInt), \(slider2.endInt), \(slider3.startInt), \(slider3.endInt));"
-        if minWidthField.stringValue != "" {
-            codeString += "\nconfig.setMinWidth(\(minWidthField.stringValue));"
-        }
-        if minHeightField.stringValue != "" {
-            codeString += "\nconfig.setMinHeight(\(minWidthField.stringValue));"
-        }
-        if minAreaField.stringValue != "" {
-            codeString += "\nconfig.setMinArea(\(minAreaField.stringValue));"
-        }
-        NSPasteboard.general().clearContents()
-        NSPasteboard.general().setString(codeString, forType: NSPasteboardTypeString)
+    @IBAction func resetClicked(_ sender: NSButton) {
         let alert = NSAlert()
-        alert.messageText = "Code Copied"
-        alert.informativeText = "The generated code has been copied to the clipboard."
-        alert.alertStyle = .informational
+        alert.messageText = "Confirm Reset"
+        alert.informativeText = "Are you sure you want to reset the workspace? This will clear specified filter values, height/width/area values, contour color, and image."
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "Cancel")
         if let window = self.view.window {
-            alert.beginSheetModal(for: window, completionHandler: nil)
-        } else {
-            alert.runModal()
-        }
-    }
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
+            alert.beginSheetModal(for: window) {
+                (res: NSModalResponse) in
+                if (res == 1000) {
+                    let resetArray = [0, 255, 0, 255, 0, 255]
+                    self.hsv = resetArray
+                    self.hsl = resetArray
+                    self.rgb = resetArray
+                    self.filePath = nil
+                    self.resetSliders(to: resetArray)
+                    self.minWidthField.stringValue = ""
+                    self.maxWidthField.stringValue = ""
+                    self.minHeightField.stringValue = ""
+                    self.maxHeightField.stringValue = ""
+                    self.minAreaField.stringValue = ""
+                    self.maxAreaField.stringValue = ""
+                    self.imageView.image = nil
+                    self.colorField.color = NSColor.green
+                    self.modeSelect.selectedSegment = 0
+                }
+            }
         }
     }
     
@@ -262,6 +278,16 @@ class ViewController: NSViewController {
         case .RGB:
             rgb = arr
         }
+    }
+    
+    func resetSliders(to values: [Int]) {
+        let doubles: [Double] = values.map { Double($0) }
+        slider1.start = doubles[0]
+        slider1.end = doubles[1]
+        slider2.start = doubles[2]
+        slider2.end = doubles[3]
+        slider3.start = doubles[4]
+        slider3.end = doubles[5]
     }
 }
 
