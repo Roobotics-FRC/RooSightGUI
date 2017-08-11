@@ -172,57 +172,59 @@ class ViewController: NSViewController {
     }
     
     @IBAction func renderClicked(_ sender: NSButton) {
-        if let file = filePath {
-            let process = Process()
-            process.launchPath = "/usr/bin/java"
-            if let protocolIndex = file.absoluteString.range(of: "file://")?.upperBound, let jarPath = Bundle.main.path(forResource: "RooSightCLT-1.0.0", ofType: "jar") {
-                let trimmedFileString = file.absoluteString.substring(from: protocolIndex)
-                process.arguments = ["-jar", jarPath, "-i", trimmedFileString]
-                setColorValArrays()
-                process.arguments!.append(contentsOf: ["-hsv", hsv.toParams(), "-hsl", hsl.toParams(), "-rgb", rgb.toParams()])
-                if minWidthField.stringValue != "" {
-                    process.arguments!.append(contentsOf: ["-wmin", minWidthField.stringValue])
-                }
-                if maxWidthField.stringValue != "" {
-                    process.arguments!.append(contentsOf: ["-wmax", maxWidthField.stringValue])
-                }
-                if minHeightField.stringValue != "" {
-                    process.arguments!.append(contentsOf: ["-hmin", minHeightField.stringValue])
-                }
-                if maxHeightField.stringValue != "" {
-                    process.arguments!.append(contentsOf: ["-hmax", maxHeightField.stringValue])
-                }
-                if minAreaField.stringValue != "" {
-                    process.arguments!.append(contentsOf: ["-amin", minAreaField.stringValue])
-                }
-                if maxAreaField.stringValue != "" {
-                    process.arguments!.append(contentsOf: ["-amax", maxAreaField.stringValue])
-                }
-                process.arguments!.append(contentsOf: ["-c", colorField.color.toParams()])
-                let outPath = "/tmp/roo_output.jpg"
-                process.arguments!.append(contentsOf: (["-o", outPath]))
-                process.terminationHandler = {
-                    (terminatedProc: Process) in
-                    DispatchQueue.main.async {
-                        self.imageView.image = NSImage(contentsOfFile: outPath)
-                        do {
-                            try FileManager.default.removeItem(atPath: outPath)
-                        } catch let e {
-                            self.generateError(withText: "Could not delete outputted file. The following error was returned:\n\n" + e.localizedDescription)
-                        }
-                    }
-                }
-                process.launch()
-            } else {
-                DispatchQueue.main.async {
-                    self.generateError(withText: "Found illegal URL format when locating image to render.")
+        guard let file = filePath else {
+            generateError(withText: "There is no image to render!")
+            return
+        }
+        let process = Process()
+        process.launchPath = "/usr/bin/java"
+        guard let protocolIndex = file.absoluteString.range(of: "file://")?.upperBound else {
+            self.generateError(withText: "Found illegal URL format when locating image to render.")
+            return
+        }
+        guard let jarPath = Bundle.main.path(forResource: "RooSightCLT-1.0.1", ofType: "jar") else {
+            self.generateError(withText: "Could not locate RooSightCLT .jar file.")
+            return
+        }
+        let trimmedFileString = file.absoluteString.substring(from: protocolIndex)
+        process.arguments = ["-jar", jarPath, "-i", trimmedFileString]
+        setColorValArrays()
+        process.arguments!.append(contentsOf: ["-hsv", hsv.toParams(), "-hsl", hsl.toParams(), "-rgb", rgb.toParams()])
+        if minWidthField.stringValue != "" {
+            process.arguments!.append(contentsOf: ["-wmin", minWidthField.stringValue])
+        }
+        if maxWidthField.stringValue != "" {
+            process.arguments!.append(contentsOf: ["-wmax", maxWidthField.stringValue])
+        }
+        if minHeightField.stringValue != "" {
+            process.arguments!.append(contentsOf: ["-hmin", minHeightField.stringValue])
+        }
+        if maxHeightField.stringValue != "" {
+            process.arguments!.append(contentsOf: ["-hmax", maxHeightField.stringValue])
+        }
+        if minAreaField.stringValue != "" {
+            process.arguments!.append(contentsOf: ["-amin", minAreaField.stringValue])
+        }
+        if maxAreaField.stringValue != "" {
+            process.arguments!.append(contentsOf: ["-amax", maxAreaField.stringValue])
+        }
+        process.arguments!.append(contentsOf: ["-c", colorField.color.toParams()])
+        let outPath = "/tmp/roo_output.jpg"
+        process.arguments!.append(contentsOf: (["-o", outPath]))
+        process.terminationHandler = {
+            (terminatedProc: Process) in
+            DispatchQueue.main.async {
+                self.imageView.image = NSImage(contentsOfFile: outPath)
+                do {
+                    try FileManager.default.removeItem(atPath: outPath)
+                } catch let e {
+                    self.generateError(withText: "Could not delete outputted file. The following error was returned:\n\n" + e.localizedDescription)
                 }
             }
-        } else {
-            generateError(withText: "There is no image to render!")
         }
+        process.launch()
     }
-    
+
     @IBAction func resetClicked(_ sender: NSButton) {
         let alert = NSAlert()
         alert.messageText = "Confirm Reset"
