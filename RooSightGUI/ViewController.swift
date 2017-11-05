@@ -109,7 +109,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         
         // Prevent the ImageView from making the view (and window) massive
-        imageView.setContentCompressionResistancePriority(NSLayoutPriority(1), for: .horizontal)
+        imageView.setContentCompressionResistancePriority(NSLayoutConstraint.Priority(1), for: .horizontal)
         
         // MARK: - Slider config
         slider1.minValue = 0
@@ -125,12 +125,12 @@ class ViewController: NSViewController {
         
         // MARK: Slider listener bindings
         
-        minLabel1.bind("integerValue", to: slider1, withKeyPath: "start", options: nil)
-        maxLabel1.bind("integerValue", to: slider1, withKeyPath: "end", options: nil)
-        minLabel2.bind("integerValue", to: slider2, withKeyPath: "start", options: nil)
-        maxLabel2.bind("integerValue", to: slider2, withKeyPath: "end", options: nil)
-        minLabel3.bind("integerValue", to: slider3, withKeyPath: "start", options: nil)
-        maxLabel3.bind("integerValue", to: slider3, withKeyPath: "end", options: nil)
+        minLabel1.bind(NSBindingName(rawValue: "integerValue"), to: slider1, withKeyPath: "start", options: nil)
+        maxLabel1.bind(NSBindingName(rawValue: "integerValue"), to: slider1, withKeyPath: "end", options: nil)
+        minLabel2.bind(NSBindingName(rawValue: "integerValue"), to: slider2, withKeyPath: "start", options: nil)
+        maxLabel2.bind(NSBindingName(rawValue: "integerValue"), to: slider2, withKeyPath: "end", options: nil)
+        minLabel3.bind(NSBindingName(rawValue: "integerValue"), to: slider3, withKeyPath: "start", options: nil)
+        maxLabel3.bind(NSBindingName(rawValue: "integerValue"), to: slider3, withKeyPath: "end", options: nil)
         
     }
     
@@ -158,8 +158,8 @@ class ViewController: NSViewController {
         openPanel.canChooseFiles = true
         if let window = self.view.window {
             openPanel.beginSheetModal(for: window) {
-                (res: Int) in
-                if res == NSFileHandlingPanelOKButton {
+                (res: NSApplication.ModalResponse) in
+                if res == .OK {
                     let selectedFile = openPanel.urls[0]
                     let image = NSImage(contentsOf: selectedFile)
                     self.imageView.image = image
@@ -186,8 +186,9 @@ class ViewController: NSViewController {
             self.generateError(withText: "Could not locate RooSightCLT .jar file.")
             return
         }
-        let trimmedFileString = file.absoluteString.substring(from: protocolIndex)
-        process.arguments = ["-jar", jarPath, "-i", trimmedFileString]
+        let trimmedFileString = String(file.absoluteString[protocolIndex...])
+        // FIXME: This java.library.path hack should not be necessary
+        process.arguments = ["-Djava.library.path=/usr/local/Cellar/opencv3classic/3.3.0_1/share/OpenCV/java","-jar", jarPath, "-i", trimmedFileString]
         setColorValArrays()
         process.arguments!.append(contentsOf: ["-hsv", hsv.toParams(), "-hsl", hsl.toParams(), "-rgb", rgb.toParams()])
         if minWidthField.stringValue != "" {
@@ -234,8 +235,8 @@ class ViewController: NSViewController {
         alert.addButton(withTitle: "Cancel")
         if let window = self.view.window {
             alert.beginSheetModal(for: window) {
-                (res: NSModalResponse) in
-                if (res == 1000) {
+                (res: NSApplication.ModalResponse) in
+                if (res == .alertFirstButtonReturn) {
                     let resetArray = [0, 255, 0, 255, 0, 255]
                     self.hsv = resetArray
                     self.hsl = resetArray
@@ -249,7 +250,7 @@ class ViewController: NSViewController {
                     self.minAreaField.stringValue = ""
                     self.maxAreaField.stringValue = ""
                     self.imageView.image = nil
-                    self.colorField.color = NSColor.green
+                    self.colorField.color = .green
                     self.modeSelect.selectedSegment = 0
                 }
             }

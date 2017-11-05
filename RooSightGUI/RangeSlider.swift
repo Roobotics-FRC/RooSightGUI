@@ -62,6 +62,7 @@ class RangeSlider: NSView {
     var onControlChanged : ((RangeSlider) -> Void)?
     
     /** The start of the selected span in the slider. */
+    @objc
     var start: Double {
         get {
             return (selection.start * (maxValue - minValue)) + minValue
@@ -75,6 +76,7 @@ class RangeSlider: NSView {
     }
     
     /** The end of the selected span in the slider. */
+    @objc
     var end: Double {
         get {
             return (selection.end * (maxValue - minValue)) + minValue
